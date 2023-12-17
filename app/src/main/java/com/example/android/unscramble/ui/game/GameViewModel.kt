@@ -22,8 +22,16 @@ class GameViewModel : ViewModel() {
         }
     }
 
+
+    fun nextWord(): Boolean {
+        return if (currentWordCount < MAX_NO_OF_WORDS) {
+            getNextWord()
+            true
+        } else false
+    }
     init {
         Log.d("GameFragment", "GameViewModel created!")
+        getNextWord()
     }
 
     private var _count = 0
@@ -34,7 +42,7 @@ class GameViewModel : ViewModel() {
     private var currentWordCount = 0
 
 
-    private var _currentScrambledWord = "test"
+    private lateinit var _currentScrambledWord: String
     val currentScrambledWord: String
         get() = _currentScrambledWord
 
