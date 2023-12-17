@@ -20,26 +20,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.fragment.app.Fragment
 import com.example.android.unscramble.R
 import com.example.android.unscramble.databinding.GameFragmentBinding
+
 
 /**
  * Fragment where the game is played, contains the game logic.
  */
 class GameFragment : Fragment() {
 
+    private val viewModel: GameViewModel by viewModels()
     private var score = 0
     private var currentWordCount = 0
     private var currentScrambledWord = "test"
 
-
-    // Binding object instance with access to the views in the game_fragment.xml layout
     private lateinit var binding: GameFragmentBinding
 
-    // Create a ViewModel the first time the fragment is created.
-    // If the fragment is re-created, it receives the same GameViewModel instance created by the
-    // first fragment
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
