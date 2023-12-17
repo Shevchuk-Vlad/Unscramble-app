@@ -1,14 +1,14 @@
 package com.example.android.unscramble.ui.game
 
-
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.TtsSpan
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+
 
 class GameViewModel : ViewModel(){
     private val _score = MutableLiveData(0)
@@ -20,6 +20,7 @@ class GameViewModel : ViewModel(){
         get() = _currentWordCount
 
     private val _currentScrambledWord = MutableLiveData<String>()
+
     val currentScrambledWord: LiveData<Spannable> = Transformations.map(_currentScrambledWord) {
         if (it == null) {
             SpannableString("")
@@ -36,7 +37,7 @@ class GameViewModel : ViewModel(){
         }
     }
 
-    // List of words used in the game
+
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
@@ -44,6 +45,7 @@ class GameViewModel : ViewModel(){
         Log.d("GameFragment", "GameViewModel created!")
         getNextWord()
     }
+
 
 
     private fun getNextWord() {
@@ -72,8 +74,10 @@ class GameViewModel : ViewModel(){
     }
 
 
+
     private fun increaseScore() {
         _score.value = (_score.value)?.plus(SCORE_INCREASE)
+
     }
 
 
@@ -93,3 +97,4 @@ class GameViewModel : ViewModel(){
         } else false
     }
 }
+
