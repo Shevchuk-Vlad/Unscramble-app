@@ -72,7 +72,18 @@ class GameFragment : Fragment() {
     * Displays the next scrambled word.
     */
     private fun onSubmitWord() {
+        val playerWord = binding.textInputEditText.text.toString()
 
+        if (viewModel.isUserWordCorrect(playerWord)) {
+            setErrorTextField(false)
+            if (viewModel.nextWord()) {
+                updateNextWordOnScreen()
+            } else {
+                showFinalScoreDialog()
+            }
+        } else {
+            setErrorTextField(true)
+        }
     }
 
     /*
@@ -80,6 +91,12 @@ class GameFragment : Fragment() {
      * Increases the word count.
      */
     private fun onSkipWord() {
+        if (viewModel.nextWord()) {
+            setErrorTextField(false)
+            updateNextWordOnScreen()
+        } else {
+            showFinalScoreDialog()
+        }
 
     }
 
@@ -90,6 +107,20 @@ class GameFragment : Fragment() {
         val tempWord = allWordsList.random().toCharArray()
         tempWord.shuffle()
         return String(tempWord)
+    }
+
+    private fun showFinalScoreDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.congratulations))
+            .setMessage(getString(R.string.you_scored, viewModel.score))
+            .setCancelable(false)
+            .setNegativeButton(getString(R.string.exit)) { _, _ ->
+                exitGame()
+            }
+            .setPositiveButton(getString(R.string.play_again)) { _, _ ->
+                restartGame()
+            }
+            .show()
     }
 
     /*
@@ -107,6 +138,7 @@ class GameFragment : Fragment() {
     private fun exitGame() {
         activity?.finish()
     }
+
 
     /*
     * Sets and resets the text field error status.
@@ -126,20 +158,6 @@ class GameFragment : Fragment() {
      */
     private fun updateNextWordOnScreen() {
         binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord
-    }
-
-    private fun showFinalScoreDialog() {
-        MaterialAlertDialogBuilder(ContentProviderCompat.requireContext())
-            .setTitle(Settings.System.getString(R.string.congratulations))
-            .setMessage(Settings.System.getString(R.string.you_scored, viewModel.score))
-            .setCancelable(false)
-            .setNegativeButton(Settings.System.getString(R.string.exit)) { _, _ ->
-                exitGame()
-            }
-            .setPositiveButton(Settings.System.getString(R.string.play_again)) { _, _ ->
-                restartGame()
-            }
-            .show()
     }
 
 }
