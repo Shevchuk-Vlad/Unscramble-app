@@ -1,7 +1,11 @@
 package com.example.android.unscramble.ui.game
 
+import android.provider.Settings.System.getString
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModel
+import com.example.android.unscramble.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class GameViewModel : ViewModel() {
 
@@ -29,6 +33,8 @@ class GameViewModel : ViewModel() {
             true
         } else false
     }
+
+
     init {
         Log.d("GameFragment", "GameViewModel created!")
         getNextWord()
@@ -38,6 +44,9 @@ class GameViewModel : ViewModel() {
     val count: Int
         get() = _count
 
+    private var _score = 0
+    val score: Int
+        get() = _score
 
     private var currentWordCount = 0
 

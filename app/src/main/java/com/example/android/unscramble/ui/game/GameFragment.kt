@@ -17,14 +17,17 @@
 package com.example.android.unscramble.ui.game
 
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.viewModels
 import androidx.fragment.app.Fragment
 import com.example.android.unscramble.R
 import com.example.android.unscramble.databinding.GameFragmentBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 /**
@@ -124,4 +127,19 @@ class GameFragment : Fragment() {
     private fun updateNextWordOnScreen() {
         binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord
     }
+
+    private fun showFinalScoreDialog() {
+        MaterialAlertDialogBuilder(ContentProviderCompat.requireContext())
+            .setTitle(Settings.System.getString(R.string.congratulations))
+            .setMessage(Settings.System.getString(R.string.you_scored, viewModel.score))
+            .setCancelable(false)
+            .setNegativeButton(Settings.System.getString(R.string.exit)) { _, _ ->
+                exitGame()
+            }
+            .setPositiveButton(Settings.System.getString(R.string.play_again)) { _, _ ->
+                restartGame()
+            }
+            .show()
+    }
+
 }
